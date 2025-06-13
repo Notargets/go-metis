@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/yourusername/go-metis"
 	"log"
 
-	"github.com/Notargets/go-metis"
+	"github.com/notargets/go-metis"
 )
 
 func main() {

@@ -3,12 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/yourusername/go-metis"
 	"log"
 	"os"
 	"time"
 
-	"github.com/Notargets/go-metis"
+	"github.com/notargets/go-metis"
 )
 
 func main() {
