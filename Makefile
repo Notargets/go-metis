@@ -2,7 +2,7 @@
 
 # Run tests
 test:
-	go test -cover -race -coverprofile=coverage.out ./...
+	go test -cover -race ./...
 
 # Build the library
 build:
