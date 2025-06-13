@@ -1,0 +1,52 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        go: ['1.20', '1.21']
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ matrix.go }}
+    
+    - name: Install METIS (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake
+        git clone https://github.com/KarypisLab/GKlib.git
+        git clone https://github.com/KarypisLab/METIS.git
+        cd GKlib && make config prefix=$HOME/local && make install
+        cd ../METIS && make config shared=1 prefix=$HOME/local gklib_path=$HOME/local && make install
+        echo "CGO_CFLAGS=-I$HOME/local/include" >> $GITHUB_ENV
+        echo "CGO_LDFLAGS=-L$HOME/local/lib" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+    
+    - name: Install METIS (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install metis
+        
+    - name: Get dependencies
+      run: go mod download
+    
+    - name: Test
+      run: go test -v -race -coverprofile=coverage.out ./...
+    
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.out
