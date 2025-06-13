@@ -22,7 +22,8 @@ func TestSetDefaultOptions(t *testing.T) {
 	require.NoError(t, err)
 
 	// Check some default values
-	assert.Equal(t, int32(0), opts[OptionNumbering]) // C-style numbering by default
+	assert.Equal(t, int32(-1),
+		opts[OptionNumbering]) // C-style numbering by default
 
 	// Test with wrong size
 	wrongOpts := make([]int32, 10)

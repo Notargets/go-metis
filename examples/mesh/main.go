@@ -54,7 +54,8 @@ func tetrahedralMeshExample() {
 		fmt.Printf("\nPartitioning into %d parts:\n", nparts)
 
 		// Dual graph partitioning
-		objval, epart, npart, err := metis.PartMeshDual(ne, nn, eptr, eind, nil, nil, 3, nparts, nil, opts)
+		objval, epart, _, err := metis.PartMeshDual(ne, nn, eptr, eind, nil,
+			nil, 3, nparts, nil, opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -70,7 +71,8 @@ func tetrahedralMeshExample() {
 		fmt.Printf("  Elements per partition: %v\n", counts)
 
 		// Nodal graph partitioning
-		objval, epart, npart, err = metis.PartMeshNodal(ne, nn, eptr, eind, nil, nil, nparts, nil, opts)
+		objval, epart, _, err = metis.PartMeshNodal(ne, nn, eptr, eind, nil,
+			nil, nparts, nil, opts)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -119,7 +121,8 @@ func hexahedralMeshExample() {
 	fmt.Println("\nPartitioning hexahedral mesh into 4 parts:")
 
 	// With equal weights
-	objval, epart, npart, err := metis.PartMeshDual(ne, nn, eptr, eind, vwgt, nil, 4, 4, nil, opts)
+	objval, epart, _, err := metis.PartMeshDual(ne, nn, eptr, eind, vwgt,
+		nil, 4, 4, nil, opts)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -212,7 +215,7 @@ func analyzeMeshPartitioning(ne int32, eptr, eind, epart []int32, nparts int32) 
 
 		// Check if element has neighbors in different partitions
 		hasInterface := false
-		myPart := epart[e]
+		// myPart := epart[e]
 
 		// This would require the dual graph to properly check
 		// For now, just count elements on partition boundaries

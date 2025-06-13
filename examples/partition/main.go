@@ -118,8 +118,9 @@ func main() {
 	}
 
 	// Calculate balance
-	min, max, avg := metis.CalculatePartitionBalance(part, graph.Vwgt, int32(*nparts))
-	fmt.Printf("\nBalance: %.3f (max/avg)\n", max/avg)
+	_, mmax, avg := metis.CalculatePartitionBalance(part, graph.Vwgt,
+		int32(*nparts))
+	fmt.Printf("\nBalance: %.3f (max/avg)\n", mmax/avg)
 
 	// Calculate edge cut (if using cut objective)
 	if *objective == "cut" {
