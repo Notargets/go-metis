@@ -15,38 +15,58 @@ jobs:
     runs-on: ${{ matrix.os }}
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ matrix.go }}
-    
-    - name: Install METIS (Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake
-        git clone https://github.com/KarypisLab/GKlib.git
-        git clone https://github.com/KarypisLab/METIS.git
-        cd GKlib && make config prefix=$HOME/local && make install
-        cd ../METIS && make config shared=1 prefix=$HOME/local gklib_path=$HOME/local && make install
-        echo "CGO_CFLAGS=-I$HOME/local/include" >> $GITHUB_ENV
-        echo "CGO_LDFLAGS=-L$HOME/local/lib" >> $GITHUB_ENV
-        echo "LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-    
-    - name: Install METIS (macOS)
-      if: matrix.os == 'macos-latest'
-      run: |
-        brew install metis
-        
-    - name: Get dependencies
-      run: go mod download
-    
-    - name: Test
-      run: go test -v -race -coverprofile=coverage.out ./...
-    
-    - name: Upload coverage
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.out
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Install build dependencies (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake
+
+      - name: Install build dependencies (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install cmake
+
+      - name: Build and Install METIS
+        run: |
+          # Clone repositories
+          git clone https://github.com/KarypisLab/GKlib.git
+          git clone https://github.com/KarypisLab/METIS.git
+          
+          # Build GKlib
+          cd GKlib
+          make config prefix=$HOME/local
+          make install
+          cd ..
+          
+          # Build METIS
+          cd METIS
+          make config shared=1 prefix=$HOME/local gklib_path=$HOME/local
+          make install
+          cd ..
+          
+          # Set environment variables
+          echo "CGO_CFLAGS=-I$HOME/local/include" >> $GITHUB_ENV
+          echo "CGO_LDFLAGS=-L$HOME/local/lib -lmetis" >> $GITHUB_ENV
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            echo "LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+          else
+            echo "DYLD_LIBRARY_PATH=$HOME/local/lib:$DYLD_LIBRARY_PATH" >> $GITHUB_ENV
+          fi
+
+      - name: Get dependencies
+        run: go mod download
+
+      - name: Test
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.out

@@ -2,13 +2,12 @@
 package metis
 
 /*
-#cgo CFLAGS: -I/usr/local/include
-#cgo LDFLAGS: -L/usr/local/lib -lmetis -lm -lGKlib
+#cgo linux CFLAGS: -I/usr/local/include
+#cgo linux LDFLAGS: -L/usr/local/lib -lmetis -lm -lGKlib
 #cgo darwin CFLAGS: -I/opt/homebrew/include -I/usr/local/include
-#cgo darwin LDFLAGS: -L/opt/homebrew/lib -L/usr/local/lib -lmetis -lGKlib
+#cgo darwin LDFLAGS: -L/opt/homebrew/lib -L/usr/local/lib -lmetis -lm
 
 #include <metis.h>
-#include <stdlib.h>
 */
 import "C"
 import (
