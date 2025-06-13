@@ -24,7 +24,7 @@ deps:
 
 # Run tests
 test:
-	go test -v -race -coverprofile=coverage.out ./...
+	go test -race -coverprofile=coverage.out ./...
 
 # Run tests with coverage report
 test-coverage: test
