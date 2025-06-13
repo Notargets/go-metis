@@ -2,14 +2,14 @@
 
 Go bindings for [METIS](https://github.com/KarypisLab/METIS) - Serial Graph Partitioning and Fill-reducing Matrix Ordering
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/yourusername/go-metis.svg)](https://pkg.go.dev/github.com/yourusername/go-metis)
-[![Go Report Card](https://goreportcard.com/badge/github.com/yourusername/go-metis)](https://goreportcard.com/report/github.com/yourusername/go-metis)
-[![CI](https://github.com/yourusername/go-metis/actions/workflows/test.yml/badge.svg)](https://github.com/yourusername/go-metis/actions/workflows/test.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/notargets/go-metis.svg)](https://pkg.go.dev/github.com/notargets/go-metis)
+[![Go Report Card](https://goreportcard.com/badge/github.com/notargets/go-metis)](https://goreportcard.com/report/github.com/notargets/go-metis)
+[![CI](https://github.com/notargets/go-metis/actions/workflows/test.yml/badge.svg)](https://github.com/notargets/go-metis/actions/workflows/test.yml)
 
 ## Installation
 
 ```bash
-go get github.com/yourusername/go-metis
+go get github.com/notargets/go-metis
 ```
 
 ## Requirements
@@ -52,7 +52,7 @@ import (
     "fmt"
     "log"
     
-    "github.com/yourusername/go-metis"
+    "github.com/notargets/go-metis"
 )
 
 func main() {
@@ -84,7 +84,7 @@ func main() {
 
 ## Documentation
 
-See [GoDoc](https://pkg.go.dev/github.com/yourusername/go-metis) for detailed API documentation.
+See [GoDoc](https://pkg.go.dev/github.com/notargets/go-metis) for detailed API documentation.
 
 ## Examples
 
