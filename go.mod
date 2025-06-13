@@ -1,4 +1,4 @@
-module github.com/yourusername/go-metis
+module github.com/notargets/go-metis
 
 go 1.21
 
