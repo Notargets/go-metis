@@ -538,11 +538,6 @@ func ComputeVertexSeparator(xadj, adjncy, vwgt []int32, options []int32) (int32,
 	return int32(sepsize), part, nil
 }
 
-// Version returns the METIS version
-func Version() string {
-	return fmt.Sprintf("%d.%d.%d", C.METIS_VER_MAJOR, C.METIS_VER_MINOR, C.METIS_VER_SUBMINOR)
-}
-
 // getError converts METIS error codes to Go errors
 func getError(status C.int) error {
 	switch status {

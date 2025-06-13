@@ -10,12 +10,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestVersion(t *testing.T) {
-	v := Version()
-	assert.NotEmpty(t, v)
-	assert.Equal(t, "5.2.1", v) // Based on the header file
-}
-
 func TestSetDefaultOptions(t *testing.T) {
 	opts := make([]int32, NoOptions)
 	err := SetDefaultOptions(opts)
