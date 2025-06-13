@@ -1,5 +1,13 @@
 .PHONY: deps test clean install-metis
 
+# Run tests
+test:
+	go test -cover -race -coverprofile=coverage.out ./...
+
+# Build the library
+build:
+	go build -v ./...
+
 # Install METIS and dependencies
 install-metis:
 	# Clone METIS and its dependency GKlib from the official repos
@@ -22,18 +30,11 @@ deps:
 	go mod download
 	go mod tidy
 
-# Run tests
-test:
-	go test -race -coverprofile=coverage.out ./...
-
 # Run tests with coverage report
 test-coverage: test
 	go tool cover -html=coverage.out -o coverage.html
 	@echo "Coverage report generated: coverage.html"
 
-# Build the library
-build:
-	go build -v ./...
 
 # Clean build artifacts
 clean:
